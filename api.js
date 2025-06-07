@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://tile-system-backend.onrender.com'; // 🔄 Corrigido
 
-// Cria uma instância do axios com a URL base
 const api = axios.create({
   baseURL: API_URL,
 });
 
-// Interceptor para adicionar o token de autenticação a todas as requisições
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -16,18 +14,12 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Interceptor para tratar erros de resposta
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
-    // Se o erro for 401 (não autorizado), redireciona para a página de login
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
@@ -38,4 +30,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-
