@@ -1,0 +1,11 @@
+from app import create_app, db
+from app.models import User  # Adicione outros modelos se quiser
+
+app = create_app()
+app.app_context().push()
+
+try:
+    db.create_all()
+    print("Banco de dados e tabelas criadas com sucesso.")
+except Exception as e:
+    print(f"Erro ao criar banco de dados: {e}")
