@@ -20,5 +20,12 @@ def create_app():
     # Importar e registrar blueprints ou rotas aqui, ex:
     # from .routes.auth import auth_bp
     # app.register_blueprint(auth_bp)
+    # Cria as tabelas automaticamente ao subir o app
+    with app.app_context():
+        try:
+            db.create_all()
+            app.logger.info("Tabelas criadas automaticamente com sucesso.")
+        except Exception as e:
+            app.logger.error(f"Erro ao criar tabelas: {e}")
 
     return app
